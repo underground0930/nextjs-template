@@ -1,9 +1,30 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next.js template site
 
-## Getting Started !
 
-First, run the development server:
+
+#　URL
+
+- 基本的なwebサイトの構成になっています
+
+```
+https://website.htmlgo.site/
+```
+
+#　CMS
+
+- microCMS
+
+#　ホスティング
+
+- Vercel
+
+#　開発コマンド
 
 ```bash
 npm run dev
+npm run build
+npm run export
 ```
+
+
+

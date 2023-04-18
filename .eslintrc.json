@@ -19,6 +19,7 @@
     "prettier"
   ],
   "ignorePatterns": [
+    "next.config.js",
     "tsconfig.json",
     "tailwind.config.js",
     "postcss.config.js"

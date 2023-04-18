@@ -4,9 +4,10 @@ const nextConfig = {
   //   locales: ['en', 'ja'],
   //   defaultLocale: 'ja',
   // },
+  output: undefined,
   reactStrictMode: true,
   images: {
-    unoptimized:true,
+    unoptimized:false,
     remotePatterns: [
       {
         protocol: 'https',
