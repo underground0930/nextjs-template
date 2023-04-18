@@ -20,7 +20,7 @@ const meta = {
 }
 
 // contactのデバッグ用
-const debug = true
+const debug = false
 
 export default function Page() {
   const [token, setToken] = useState<string | null>(null)
