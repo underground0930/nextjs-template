@@ -1,29 +1,28 @@
 # Next.js template site
 
+- 基本的なwebサイトの構成になっています。
+- 流用して素早くサイトが実装出来ます。
 
+# URL
 
-#　URL
-
-- 基本的なwebサイトの構成になっています
 
 ```
 https://website.htmlgo.site/
 ```
 
-#　CMS
+# CMS
 
 - microCMS
 
-#　ホスティング
+# ホスティング
 
 - Vercel
 
-#　開発コマンド
+# 開発コマンド
 
 ```bash
 npm run dev
 npm run build
-npm run export
 ```
 
 
