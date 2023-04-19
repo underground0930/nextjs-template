@@ -3,16 +3,14 @@ import { InferGetStaticPropsType } from 'next'
 
 import { MetaHead, ImageWrap, Wrapper, Button } from '@/components/common'
 
-import { fetchNewsList, fetchNewsDetail, getTime } from '@/libs'
+import { getTime, microcmsGetDetail, microcmsGetList } from '@/libs'
+import { onlyString } from '@/utils'
 import { baseURL, maxLimit } from '@/const'
+import { NewsData, NewsPagerData } from '@/types'
 
 type PageProps = InferGetStaticPropsType<typeof getStaticProps>
 
 export default function Page({ news, id, prev, next }: PageProps) {
-  if (!news) {
-    return <></>
-  }
-
   const { title, thumbnail, content, publishedAt, category, description } = news
   const date = getTime(publishedAt, 'YYYY-MM-DD')
 
@@ -83,33 +81,61 @@ export default function Page({ news, id, prev, next }: PageProps) {
 }
 
 export async function getStaticPaths() {
-  const result = await fetchNewsList({
-    fields: ['id'],
-    limit: maxLimit,
+  const result = await microcmsGetList<{ id: string }>({
+    endpoint: 'news',
+    queries: {
+      fields: ['id'],
+      limit: maxLimit,
+    },
   })
 
-  const paths = result?.contents?.map?.((val) => ({ params: { id: val.id } }))
+  const paths = result.data?.contents.map((val) => ({ params: { id: val.id } }))
   return {
     paths,
     fallback: false,
   }
 }
 
-export async function getStaticProps({ params }: { params: { id: string } }) {
+export const getStaticProps = async ({
+  params,
+  preview = false,
+  previewData,
+}: {
+  params: { id?: string | string[]; slug?: string }
+  preview?: boolean
+  previewData: any
+}) => {
+  const id = onlyString(params?.id)
   const result = await Promise.allSettled([
-    fetchNewsDetail({ id: params.id }),
-    fetchNewsList({
-      fields: ['id', 'title'],
-      limit: maxLimit,
+    microcmsGetDetail<NewsData>({
+      endpoint: 'news',
+      contentId: id,
+      queries: {
+        draftKey: preview ? previewData?.draftKey : undefined,
+      },
+    }),
+    microcmsGetList<NewsPagerData>({
+      endpoint: 'news',
+      queries: {
+        fields: ['id', 'title'],
+        limit: maxLimit,
+      },
     }),
   ]).then((values) => {
     return {
-      detail: values[0].status === 'fulfilled' ? values[0].value : null,
-      allList: values[1].status === 'fulfilled' ? values[1].value?.contents : null,
+      detail: values[0].status === 'fulfilled' ? values[0].value.data : null,
+      allList: values[1].status === 'fulfilled' ? values[1].value.data?.contents : null,
     }
   })
 
-  const index = result.allList?.findIndex((v) => v.id === params.id) as number
+  const index = result.allList?.findIndex((v) => v.id === id)
+
+  if (!result.detail || index === undefined) {
+    return {
+      notFound: true,
+    }
+  }
+
   const prev = result.allList?.[index - 1]
   const next = result.allList?.[index + 1]
 
@@ -118,7 +144,7 @@ export async function getStaticProps({ params }: { params: { id: string } }) {
       news: result.detail,
       prev: prev ?? null,
       next: next ?? null,
-      id: params.id,
+      id,
     },
   }
 }

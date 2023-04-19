@@ -4,10 +4,10 @@ import { MicroCMSListResponse } from 'microcms-js-sdk'
 import { Button, Wrapper, Pager, Hero } from '@/components/common'
 import { List } from '@/components/pages/news'
 
-import { NewsData } from '@/types'
+import { NewsListData } from '@/types'
 
 type Props = {
-  news: MicroCMSListResponse<NewsData> | null
+  news: MicroCMSListResponse<NewsListData> | null
   page: number
   limit: number
 }

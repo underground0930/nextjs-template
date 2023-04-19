@@ -9,22 +9,23 @@ import 'swiper/css/effect-fade'
 import { MetaHead, ImageWrap, Button, Wrapper } from '@/components/common'
 import { List } from '@/components/pages/news'
 
-import { fetchNewsList } from '@/libs'
+import { microcmsGetList } from '@/libs'
 import { baseURL } from '@/const'
+import { NewsListData } from '@/types'
 
 type PageProps = InferGetStaticPropsType<typeof getStaticProps>
-
-const meta = {
-  title: 'Top',
-  description: 'Websiteへようこそ',
-  url: '',
-  imageUrl: `${baseURL}/api/og?title=Top`,
-}
 
 export default function Page({ news }: PageProps) {
   return (
     <>
-      <MetaHead {...meta} />
+      <MetaHead
+        {...{
+          title: 'Top',
+          description: 'Websiteへようこそ',
+          url: '',
+          imageUrl: `${baseURL}/api/og?title=Top`,
+        }}
+      />
       <Wrapper>
         {/* hero */}
         <div className='relative mb-10 flex aspect-[10/4] flex-col justify-center overflow-hidden'>
@@ -53,7 +54,7 @@ export default function Page({ news }: PageProps) {
         {/* news */}
         <section className='pb-6 md:pb-8'>
           <h2 className='mb-3 text-2xl font-bold md:mb-5 md:text-3xl'>Latest News</h2>
-          {news && <List news={news.contents} />}
+          {news && <List news={news} />}
         </section>
         <div className='flex justify-center'>
           <Button href='/news' text='News top' />
@@ -64,10 +65,13 @@ export default function Page({ news }: PageProps) {
 }
 
 export async function getStaticProps() {
-  const result = await fetchNewsList({ limit: 3 })
+  const result = await microcmsGetList<NewsListData>({
+    endpoint: 'news',
+    queries: { limit: 3 },
+  })
   return {
     props: {
-      news: result,
+      news: result.data?.contents ?? [],
     },
   }
 }

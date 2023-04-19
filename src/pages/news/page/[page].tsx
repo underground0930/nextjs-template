@@ -1,11 +1,12 @@
 import { InferGetStaticPropsType } from 'next'
 
-import { fetchNewsList } from '@/libs/index'
+import { microcmsGetList } from '@/libs/index'
 
 import { MetaHead } from '@/components/common'
 import { Content } from '@/components/pages/news/Content'
 
 import { baseURL, limit } from '@/const'
+import { NewsIdData, NewsListData } from '@/types'
 
 type PageProps = InferGetStaticPropsType<typeof getStaticProps>
 
@@ -27,31 +28,44 @@ export default function Page({ news, page, limit }: PageProps) {
 
 // 動的なページを作成
 export const getStaticPaths = async () => {
-  const result = await fetchNewsList({
-    fields: ['id'],
+  const result = await microcmsGetList<NewsIdData[]>({
+    endpoint: 'news',
+    queries: {
+      fields: ['id'],
+    },
   })
 
   let paths: string[] = []
 
-  if (result) {
+  if (result.data) {
     const range = (start: number, end: number): number[] =>
       Array.from({ length: end - start + 1 }, (_, i) => start + i)
-    paths = range(1, Math.ceil(result.totalCount / limit)).map(
+    paths = range(1, Math.ceil(result.data.totalCount / limit)).map(
       (page) => `/news/page/${page}`,
     )
   }
 
-  return { paths, fallback: false }
+  return { paths, fallback: true }
 }
 
 export async function getStaticProps({ params }: { params: { page: string } }) {
-  const result = await fetchNewsList({
-    limit,
-    offset: (Number(params.page) - 1) * limit,
+  const result = await microcmsGetList<NewsListData>({
+    endpoint: 'news',
+    queries: {
+      limit,
+      offset: (Number(params.page) - 1) * limit,
+    },
   })
+
+  if (!result.data) {
+    return {
+      notFound: true,
+    }
+  }
+
   return {
     props: {
-      news: result,
+      news: result.data,
       limit,
       page: params?.page ? Number(params.page) : 1,
     },

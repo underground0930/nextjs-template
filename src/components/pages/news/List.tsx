@@ -3,10 +3,10 @@ import React from 'react'
 import { ImageWrap } from '@/components/common'
 
 import { getTime } from '@/libs'
-import { NewsData } from '@/types'
+import { NewsListData } from '@/types'
 
 type Props = {
-  news: NewsData[] | null
+  news: NewsListData[]
 }
 
 const newDefaultImage = 'https://placehold.jp/70/cccccc/ffffff/600x400.png?text=No Image'
@@ -15,7 +15,7 @@ export const List: React.FC<Props> = ({ news }) => {
   return (
     <>
       <div className='md:flex md:flex-wrap md:justify-between md:after:w-[30%]'>
-        {news?.map?.((child) => {
+        {news.map((child) => {
           const { id, title, description, thumbnail, publishedAt, category } = child
           const date = getTime(publishedAt, 'YYYY-MM-DD')
           return (

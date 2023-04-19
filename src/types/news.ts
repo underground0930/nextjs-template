@@ -1,6 +1,6 @@
 import { MicroCMSDate } from 'microcms-js-sdk'
 
-// newsの記事データ
+// news詳細の記事データ
 export type NewsData = {
   id: string
   title: string
@@ -16,3 +16,12 @@ export type NewsData = {
     name: string
   }
 } & MicroCMSDate
+
+// news詳細のpagerで使うデータ
+export type NewsPagerData = Pick<NewsData, 'id' | 'title'>
+
+// news一覧で使うデータ
+export type NewsListData = Omit<NewsData, 'content'>
+
+// getStaticPathで使うデータ
+export type NewsIdData = Pick<NewsData, 'id'>

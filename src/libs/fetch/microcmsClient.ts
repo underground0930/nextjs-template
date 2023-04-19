@@ -1,14 +1,7 @@
 // microCMS JavaScript SDK
 // url: https://github.com/microcmsio/microcms-js-sdk
 
-import {
-  createClient,
-  GetListDetailRequest,
-  GetListRequest,
-  MicroCMSQueries,
-} from 'microcms-js-sdk'
-
-import { NewsData } from '@/types/index'
+import { createClient, GetListDetailRequest, GetListRequest } from 'microcms-js-sdk'
 
 ////////////////////////////////////////////
 // common
@@ -16,11 +9,11 @@ import { NewsData } from '@/types/index'
 
 const microcmsClient = () =>
   createClient({
-    serviceDomain: 'nextjs-website-template',
-    apiKey: process.env.MICROCMS_API_KEY ?? '',
+    serviceDomain: process.env.MICROCMS_SERVICE_DOMAIN!,
+    apiKey: process.env.MICROCMS_API_KEY!,
   })
 
-const microcmsGetList = <T>({ endpoint, queries }: GetListRequest) => {
+export const microcmsGetList = <T>({ endpoint, queries }: GetListRequest) => {
   const client = microcmsClient()
 
   return client
@@ -28,19 +21,23 @@ const microcmsGetList = <T>({ endpoint, queries }: GetListRequest) => {
     .then((response) => {
       return {
         data: response,
-        error: false,
+        error: null,
       }
     })
     .catch((error) => {
       console.error(error)
       return {
         data: null,
-        error: true,
+        error,
       }
     })
 }
 
-const microcmsGetDetail = <T>({ endpoint, contentId, queries }: GetListDetailRequest) => {
+export const microcmsGetDetail = <T>({
+  endpoint,
+  contentId,
+  queries,
+}: GetListDetailRequest) => {
   const client = microcmsClient()
 
   return client
@@ -48,41 +45,14 @@ const microcmsGetDetail = <T>({ endpoint, contentId, queries }: GetListDetailReq
     .then((response) => {
       return {
         data: response,
-        error: false,
+        error: null,
       }
     })
     .catch((error) => {
       console.error(error)
       return {
         data: null,
-        error: true,
+        error,
       }
     })
-}
-
-////////////////////////////////////////////
-// news list
-////////////////////////////////////////////
-
-export const fetchNewsList = async (queries?: MicroCMSQueries) => {
-  const result = await microcmsGetList<NewsData>({
-    endpoint: 'news',
-    queries,
-  })
-
-  if (result.error) return null
-  return result.data
-}
-
-////////////////////////////////////////////
-// news detail
-////////////////////////////////////////////
-
-export const fetchNewsDetail = async ({ id }: { id: string }) => {
-  const result = await microcmsGetDetail<NewsData>({
-    endpoint: 'news',
-    contentId: id,
-  })
-  if (result.error) return null
-  return result.data
 }
