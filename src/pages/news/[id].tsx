@@ -8,26 +8,24 @@ import { baseURL, maxLimit } from '@/const'
 
 type PageProps = InferGetStaticPropsType<typeof getStaticProps>
 
-const meta = (id: string) => {
-  return {
-    title: 'News 詳細',
-    description: 'News 詳細',
-    url: `/news/${id}`,
-    imageUrl: `${baseURL}/api/og?title=News`,
-  }
-}
-
 export default function Page({ news, id, prev, next }: PageProps) {
   if (!news) {
     return <></>
   }
 
-  const { title, thumbnail, content, publishedAt, category } = news
+  const { title, thumbnail, content, publishedAt, category, description } = news
   const date = getTime(publishedAt, 'YYYY-MM-DD')
 
   return (
     <>
-      <MetaHead {...meta(id)} />
+      <MetaHead
+        {...{
+          title: `${title} | News`,
+          description: `${description}`,
+          url: `/news/${id}`,
+          imageUrl: thumbnail?.url ? thumbnail.url : `${baseURL}/api/og?title=News`,
+        }}
+      />
       <Wrapper>
         <article>
           <div className=''>

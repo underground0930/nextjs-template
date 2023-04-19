@@ -8,17 +8,17 @@ import { baseURL, limit } from '@/const'
 
 type PageProps = InferGetStaticPropsType<typeof getStaticProps>
 
-const meta = {
-  title: 'News',
-  description: 'お知らせ一覧のページになります',
-  url: '/news',
-  imageUrl: `${baseURL}/api/og?title=News`,
-}
-
 export default function Page({ news, page, limit }: PageProps) {
   return (
     <>
-      <MetaHead {...meta} />
+      <MetaHead
+        {...{
+          title: 'News',
+          description: 'お知らせ一覧のページになります',
+          url: '/news',
+          imageUrl: `${baseURL}/api/og?title=News`,
+        }}
+      />
       <Content news={news} page={page} limit={limit} />
     </>
   )

@@ -12,13 +12,6 @@ import { baseURL, errorText, inputElements, sitekey } from '@/const'
 
 type ErrorType = { [key: string]: string }
 
-const meta = {
-  title: 'Contact',
-  description: 'お問い合わせはこちらからお願いします',
-  url: '/contact',
-  imageUrl: `${baseURL}/api/og?title=Contact`,
-}
-
 // contactのデバッグ用
 const debug = false
 
@@ -104,7 +97,14 @@ export default function Page() {
 
   return (
     <>
-      <MetaHead {...meta} />
+      <MetaHead
+        {...{
+          title: 'Contact',
+          description: 'お問い合わせはこちらからお願いします',
+          url: '/contact',
+          imageUrl: `${baseURL}/api/og?title=Contact`,
+        }}
+      />
       <Wrapper>
         {/* hero */}
         <Hero title='Contact' imgSrc='/images/hero/contact.jpg' />

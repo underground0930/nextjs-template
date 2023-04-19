@@ -2,17 +2,17 @@ import { MetaHead, Wrapper, Hero, Button } from '@/components/common'
 
 import { baseURL } from '@/const'
 
-const meta = {
-  title: 'Thanks | Contact',
-  description: 'お問い合わせ頂きありがとうございました。',
-  url: '/contact/thanks',
-  imageUrl: `${baseURL}/api/og?title=Contact`,
-}
-
 export default function Page() {
   return (
     <>
-      <MetaHead {...meta} />
+      <MetaHead
+        {...{
+          title: 'Thanks | Contact',
+          description: 'お問い合わせ頂きありがとうございました。',
+          url: '/contact/thanks',
+          imageUrl: `${baseURL}/api/og?title=Contact`,
+        }}
+      />
       <Wrapper>
         {/* hero */}
         <Hero title='Contact' imgSrc='/images/hero/contact.jpg' />

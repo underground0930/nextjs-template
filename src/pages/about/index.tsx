@@ -3,17 +3,17 @@ import { Hero } from '@/components/common/Hero'
 
 import { baseURL } from '@/const'
 
-const meta = {
-  title: 'About',
-  description: 'このサイトについての説明文です',
-  url: '/about',
-  imageUrl: `${baseURL}/api/og?title=About`,
-}
-
 export default function Page() {
   return (
     <>
-      <MetaHead {...meta} />
+      <MetaHead
+        {...{
+          title: 'About',
+          description: 'このサイトについての説明文です',
+          url: '/about',
+          imageUrl: `${baseURL}/api/og?title=About`,
+        }}
+      />
       <Wrapper>
         {/* hero */}
         <Hero title='About' imgSrc='/images/hero/about.jpg' />
