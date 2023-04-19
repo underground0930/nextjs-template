@@ -3,8 +3,7 @@
   "globals": {
     "React": "readonly",
     "JSX":"readonly",
-    "process":"readonly",
-    "gtag":"readonly"
+    "process":"readonly"
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {

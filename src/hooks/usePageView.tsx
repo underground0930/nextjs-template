@@ -13,7 +13,7 @@ export function usePageView() {
   const router = useRouter()
   useEffect(() => {
     const handleRouterChange = (url: string) => {
-      window.gtag('config', GA_ID, {
+      gtag('config', GA_ID, {
         page_location: url,
       })
     }
