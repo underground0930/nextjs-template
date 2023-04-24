@@ -1,1 +1,6 @@
-export * from './onlyString'
+export { onlyString } from './onlyString'
+export { deepClone } from './deepClone'
+export { range } from './range'
+export { sleep } from './sleep'
+export { groupBy } from './groupBy'
+export { pick } from './pick'
