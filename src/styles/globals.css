@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .cms-content > h2 {
+    @apply mt-6 pb-4 text-lg font-bold md:mt-8 md:pb-6 md:text-xl;
+  }
+  .cms-content > p {
+    @apply mb-6 text-sm md:text-lg;
+  }
+  .cms-content img {
+    @apply mb-4 ml-auto mr-auto mt-4 block w-full;
+  }
+  .cms-content a {
+    @apply underline;
+  }
+}
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
+}
+
+body {
+  font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans',
+    Meiryo, sans-serif;
+  color: rgb(var(--foreground-rgb));
+  overflow-y: scroll;
+  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb)))
+    rgb(var(--background-start-rgb));
+
+  line-height: 1.5;
+}
